@@ -1,7 +1,7 @@
-import AuthType from '@components/AuthType';
-import Credentials from '@components/Credentials';
-
-export const AuthResult = {
-    Credentials,
-    AuthType
+export class AuthResult{
+    constructor(userId, roles, token){
+        this.userId = userId,
+        this.roles = roles,
+        this.token = token
+    }
 }

@@ -1,5 +1,5 @@
 'use client'
-import {getProducts} from '@services/controller-service'
+import {getProducts} from '@services/controllerService'
 import {useEffect, useState} from 'react'
 
 const Page = () => {
@@ -10,7 +10,8 @@ const Page = () => {
           const getProductsResult = await getProducts(
                 'https://localhost:7174/product'
             );
-            setProducts(getProductsResult);
+            const data = await getProductsResult; 
+            setProducts(data);
         }
         getProductsRes();
     }, []);
@@ -19,15 +20,16 @@ const Page = () => {
         <>
             <h1>Products</h1>
             <ul>
-                {products?.map((product => {
+                {products?.map((product) => (
                     <li key={product.id}>
-                        <dev>Name: {product.name}</dev>
-                        <dev>Code: {product.code}</dev>
-                        <dev>Description: {product.description}</dev>
-                        <dev>Url Price: {product.urlPicture}</dev>
-                        <dev>Price: {product.price}</dev>
+                        <div>Id: {product.id}</div>
+                        <div>Name: {product.name}</div>
+                        <div>Code: {product.code}</div>
+                        <div>Description: {product.description}</div>
+                        <div>Url Price: {product.urlPicture}</div>
+                        <div>Price: {product.price}</div>
                     </li>
-                }))}
+                ))}
             </ul>
         </>
     );

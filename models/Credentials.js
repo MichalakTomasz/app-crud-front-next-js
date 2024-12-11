@@ -1,4 +1,6 @@
-export const Credentials = {
-    email,
-    password
+export class Credentials{
+    constructor(email, password){
+        this.email = email,
+        this.password = password
+    }
 }
