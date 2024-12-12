@@ -1,5 +1,3 @@
-import { Product } from "@models/Product";
-
 const appJson = 'application/json';
 
 export const auth = async (url, authInput) =>{

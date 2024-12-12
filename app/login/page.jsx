@@ -1,23 +1,13 @@
 'use client'
 
-import { auth } from "@services/controllerService";
-import React from "react";
+import { useAuthService } from "@services/AuthContext";
 import { Form, Field } from 'react-final-form';
 
 const Page = () => {
+    const authService = useAuthService();
     const onSubmit = (values) => {
-        const doLogin = async () => {
-            const loginResult = await auth(
-                'https://localhost:7174/auth', {
-                    credentials: {
-                        email: values.email,
-                        password: values.password
-                    },
-                    authType: 'LogIn'
-                });
-                localStorage.setItem('userData', JSON.stringify(loginResult));
-        }
-        doLogin();
+        authService.setAuth(values.email, values.password, 'LogIn');
+        console.log(authService);
     }
 
     return (
@@ -25,8 +15,8 @@ const Page = () => {
             <h1>LogIn</h1>
             <Form 
             onSubmit={onSubmit}
-            render={({ handlerSubmit }) => (
-                <form onSubmit={handlerSubmit}>
+            render={({ handleSubmit }) => (
+                <form onSubmit={handleSubmit}>
                     <div>
                         <label name='email'>Email</label>
                         <Field name='email' component='input' type="text"placeholder='Email'/>

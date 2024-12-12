@@ -1,45 +1,55 @@
 import { createContext, useState, useEffect, useContext } from "react";
+import { auth } from "@services/controllerService";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-export const AuthProvider = ({Children}) => {
-    const [isAuthorized, setIsAuthorized] = useState(false);
-    const [userId, setUserId] = useState();
-    const [token, setToken] = useState();
-    const jwtToken = 'jwtToken';
+export const AuthProvider = ({ children }) => {
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [userId, setUserId] = useState();
+  const [token, setToken] = useState();
+  const [roles, setRoles] = useState();
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem(jwtToken);
-        setToken(storedToken);
-        if (token)
-            setIsAuthorized(true)
-    }, []);
+  const doAuth = async (email, password, authType) => {
+    const authResult = await auth("https://localhost:7174/auth", {
+      credentials: {
+        email: email,
+        password: password,
+      },
+      authType: authType,
+    });
 
-    const login = (token, userId) =>{
-        if (token){
-            setToken(token);
-            setIsAuthorized(true);
-            localStorage.setItem(jwtToken, token);
+    setIsAuthorized(authResult.isAuthorized);
+    setUserId(authResult.userId);
+    setRoles(authResult.roles);
+    setToken(authResult.token);
 
-            if (userId)
-                setUserId(userId);
-        }
-    };
+    return await authResult;
+  };
 
-    const logout = () => {
-        setToken(undefined);
-        localStorage.setItem(jwtToken, undefined);
-        setUserId(undefined);
-        setIsAuthorized(false);
-    };
+  useEffect(() => {
+    doAuth(null, null, "Guest");
+  }, []);
 
-    return (
-        <AuthContext.Provider value = {{isAuthorized, login, logout}}>
-            {Children}
-        </AuthContext.Provider>
-    );
-}
+  const setAuth = (email, password, authType) => {
+    doAuth(email, password, authType);
+  };
+
+  const logOut = () => {
+    setToken(undefined);
+    setUserId(undefined);
+    setIsAuthorized(false);
+    setRoles(undefined);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{ isAuthorized, userId, token, roles, setAuth, logOut }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
 export const useAuthService = () => {
-    return useContext(AuthContext);
-}
+  return useContext(AuthContext);
+};
