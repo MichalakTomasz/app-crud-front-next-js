@@ -8,7 +8,7 @@ const Page = () => {
   const [id, setId] = useState('');
   const onGetProduct = () => {
     const getProductRes = async () => {
-      const productResult = getProduct("https://localhost:7174/product", id);
+      const productResult = await getProduct("https://localhost:7174/product", id);
       setProduct(await productResult);
     };
     getProductRes();

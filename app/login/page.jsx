@@ -23,7 +23,7 @@ const Page = () => {
                     </div>
                     <div>
                         <label name='password'>Password</label>
-                        <Field name='password' component='input' type="text"placeholder='Password'/>
+                        <Field name='password' component='input' type="password" placeholder='Password'/>
                     </div>
                     <button type='submit'>LogIn</button>
                 </form>

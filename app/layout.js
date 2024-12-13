@@ -15,6 +15,7 @@ const RootLayout = ({ children }) => {
           <Nav />
           <br/>
           { children }
+          <br/>
           <UserData />
         </AuthProvider>
       </body>

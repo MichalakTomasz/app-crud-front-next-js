@@ -47,9 +47,22 @@ export const addProduct = async (url, product) => {
     method: 'POST',
     headers:{
       'Content-Type': appJson,
-      'Authorization': `Bearer ${userdata?.token}`
+      'Authorization': `Bearer ${userData?.token}`
     },
-    body: product.json()
+    body: JSON.stringify(product)
+  });
+
+  return await data;
+}
+
+export const deleteProduct = async (url, id) =>{
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  const data = await fetch(url + '/' + id, {
+    method: 'DELETE',
+    headers:{
+      'Content-Type': appJson,
+      'Authorization': `Bearer ${userData?.token}`
+    }
   });
 
   return await data;

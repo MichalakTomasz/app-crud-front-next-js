@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     setUserId(authResult.userId);
     setRoles(authResult.roles);
     setToken(authResult.token);
+    localStorage.setItem('userData', JSON.stringify(authResult));
 
     return await authResult;
   };

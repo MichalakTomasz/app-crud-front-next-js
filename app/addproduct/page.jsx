@@ -26,8 +26,8 @@ const Page = () => {
       <h1>Add product</h1>
       <Form
         onSubmit={onSubmit}
-        render={({ handlerSubmit }) => (
-          <form onSubmit={handlerSubmit}>
+        render={({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name">Name</label>
               <Field
