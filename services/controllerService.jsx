@@ -67,3 +67,31 @@ export const deleteProduct = async (url, id) =>{
 
   return await data;
 }
+
+export const registerAccount = async (url, inputUser) =>{
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  const data = await fetch(url, {
+    method: 'POST',
+    headers:{
+      'Content-Type': appJson,
+      'Authorization': `Bearer ${userData?.token}`
+    },
+    body: JSON.stringify(inputUser)
+  });
+
+  return await data;
+}
+
+export const deleteAccount = async (url, deleteGuid) =>{
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  const data = await fetch(url, {
+    method: 'DELETE',
+    headers:{
+      'Content-Type': appJson,
+      'Authorization': `Bearer ${userData?.token}`
+    },
+    body: JSON.stringify(deleteGuid)
+  });
+
+  return await data;
+}
