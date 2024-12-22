@@ -3,7 +3,7 @@ import '@styles/globals.css'
 const Page = () => {
   return (
     <>    
-    <div>Welcome to React!</div>
+    <h2>Welcome to React!</h2>
   </>
   );
 }

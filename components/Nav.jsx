@@ -1,27 +1,87 @@
-import { useAuthService } from '@services/AuthContext';
-import Link from 'next/link';
+"use client";
+
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { useContext, useEffect, useState, useCallback } from "react";
+import { AuthContext } from "./AuthProvider";
 
 const Nav = () => {
-    const authService = useAuthService();
-    const hasPermission = authService.roles?.includes('Admin');
+  const authContext = useContext(AuthContext);
+  const [isAuthorized, setIsAuthorized] = useState(authContext?.isAuthorized);
+  const [userId, setUserId] = useState(authContext?.userId);
+  const [roles, setRoles] = useState(authContext?.roles);
+  const [token, setToken] = useState(authContext?.token);
+  const [expiration, setExpiration] = useState(authContext?.expiration);
 
-    return (
-        <nav>
-            <Link href='/'>Home</Link>
-            <Link href='/login'>LogIn</Link>
-            <Link href='/products'>Products</Link>
-            <Link href='/product'>Product</Link>
-            {
-                hasPermission ? 
-                <>
-                    <Link href='/addproduct'>Add Product</Link>
-                    <Link href='/deleteproduct'>Delete Product</Link>
-                    <Link href='/registeraccount'>Register Account</Link>
-                    <Link href='/deleteaccount'>Delete Account</Link>
-                </>: null
-            }
-        </nav>
-    );
-}
+  useEffect(() => {
+    setIsAuthorized(authContext?.isAuthorized);
+    setUserId(authContext?.userId);
+    setRoles(authContext?.roles);
+    setToken(authContext?.token);
+    setExpiration(authContext?.expiration);
+  }, []);
 
-export default Nav
+  const hasPermission = roles?.includes("Admin");
+
+  const routes = [
+    {
+      name: "Home",
+      path: "",
+      index: 0,
+    },
+    {
+      name: "LogIn",
+      path: "login",
+      index: 1,
+    },
+    {
+      name: "Products",
+      path: "products",
+      index: 2,
+    },
+    {
+      name: "Product",
+      path: "product",
+      index: 3,
+    },
+    {
+      name: "Add Product",
+      path: "addproduct",
+      index: 4,
+    },
+    {
+      name: "Delete Product",
+      path: "deleteProduct",
+      index: 5,
+    },
+    {
+      name: "Register Account",
+      path: "registeraccount",
+      index: 5,
+    },
+    {
+      name: "Delete Account",
+      path: "deleteaccount",
+      index: 6,
+    },
+  ];
+
+  const mappedRoutes = routes.map((route) => (
+    <Tab
+      label={route.name}
+      href={"/" + route.path}
+      value={"/" + route.path}
+      key={route.index}
+    />
+  ));
+
+  const currentPath = window.location.pathname ?? "/";
+  return (
+    <Tabs value={currentPath} centered>
+      {mappedRoutes.slice(0, 4)}
+      {hasPermission ? mappedRoutes.slice(4) : null}
+    </Tabs>
+  );
+};
+
+export default Nav;

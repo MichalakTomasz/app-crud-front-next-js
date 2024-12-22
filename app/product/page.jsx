@@ -2,14 +2,17 @@
 
 import { getProduct } from "@services/controllerService";
 import { useState } from "react";
+import Button from '@mui/material/Button';
+import { Field, Form } from "react-final-form";
 
 const Page = () => {
   const [product, setProduct] = useState();
-  const [id, setId] = useState('');
-  const onGetProduct = () => {
+  const onSubmit = (value) => {
+    console.log('fired');
     const getProductRes = async () => {
-      const productResult = await getProduct("https://localhost:7174/product", id);
+      const productResult = await getProduct("https://localhost:7174/product", value.id);
       setProduct(await productResult);
+      console.log(productResult);
     };
     getProductRes();
   };
@@ -17,8 +20,18 @@ const Page = () => {
   return (
     <>
       <h1>Product</h1>
-      <input placeholder="Product Id" onChange={e => setId(e.target.value)} />
-      <button onClick={onGetProduct}>Get product by Id</button>
+      <Form
+      onSubmit={onSubmit}
+      render={({handleSubmit}) => (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label name='Id'>Id</label>
+            <Field name='id' component='input' type='text' placeholder='Id'/>
+          </div>
+          <Button variant='contained' type="submit">Get product</Button>
+        </form>
+      )}
+      />
       <>
         {product ? (
           <>
