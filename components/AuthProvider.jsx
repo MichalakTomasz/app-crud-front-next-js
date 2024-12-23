@@ -7,13 +7,12 @@ import { userData as USERDATA, baseUrl} from '../services/commonConsts'
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-
-  const userData = JSON.parse(sessionStorage.getItem(USERDATA));
-  const [isAuthorized, setIsAuthorized] = useState(userData?.isAuthorized);
-  const [userId, setUserId] = useState(userData?.userId);
-  const [roles, setRoles] = useState(userData?.roles);
-  const [token, setToken] = useState(userData?.token);
-  const [expiration, setExpiration] = useState(userData?.expiration);
+  console.log('AuthProvider')
+  const [isAuthorized, setIsAuthorized] = useState();
+  const [userId, setUserId] = useState();
+  const [roles, setRoles] = useState();
+  const [token, setToken] = useState();
+  const [expiration, setExpiration] = useState();
   
   const setUserData = (userData) => {
     setIsAuthorized(userData?.isAuthorized);
@@ -25,11 +24,16 @@ const AuthProvider = ({ children }) => {
   };
 
   const checkAuth = async () => {
-    if (!token || Date(expiration) < Date()){
-      const data = await logIn(null, null, "Guest");
-      setUserData(data);
+    const session = sessionStorage.getItem(USERDATA);
+    const userData = session && JSON.parse(session);
+    setUserData(userData);
+    console.log('checkAuth ', token)
+    if (!token || new Date(expiration) < new Date()){      
+      let data = await logIn(null, null, "Guest");
+        setUserData(data);
+        console.log('checkAuth inside ', data)
+      };
     }
-  };
 
   const logIn = async (email, password, authType) => {
     const userData = await auth(baseUrl + "/auth", {
@@ -59,8 +63,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     checkAuth();
   }, [])
-
-  checkAuth();
 
   return (
     <AuthContext.Provider value={{isAuthorized, userId, roles, expiration, token, checkAuth, logIn, logOut }}>

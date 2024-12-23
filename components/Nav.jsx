@@ -2,10 +2,11 @@
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { useContext, useEffect, useState, useCallback } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthProvider";
 
 const Nav = () => {
+  console.log('nav')
   const authContext = useContext(AuthContext);
   const [isAuthorized, setIsAuthorized] = useState(authContext?.isAuthorized);
   const [userId, setUserId] = useState(authContext?.userId);
@@ -19,7 +20,7 @@ const Nav = () => {
     setRoles(authContext?.roles);
     setToken(authContext?.token);
     setExpiration(authContext?.expiration);
-  }, []);
+  }, [authContext?.token]);
 
   const hasPermission = roles?.includes("Admin");
 

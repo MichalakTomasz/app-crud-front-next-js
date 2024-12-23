@@ -1,9 +1,10 @@
 "use client";
 
-import { useContext, useEffect, useState, useCallback } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthProvider";
 
 const UserData = () => {
+  console.log('UserData')
   const authContext = useContext(AuthContext);
   const [isAuthorized, setIsAuthorized] = useState(authContext?.isAuthorized);
   const [userId, setUserId] = useState(authContext?.userId);
@@ -17,7 +18,7 @@ const UserData = () => {
     setRoles(authContext?.roles);
     setToken(authContext?.token);
     setExpiration(authContext?.expiration);
-  }, []);
+  }, [authContext?.token]);
 
   return (
     <>
