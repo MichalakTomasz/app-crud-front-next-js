@@ -4,14 +4,17 @@ import {
   applicationJson,
   userData as USERDATA,
   bearer,
+  POST,
+  GET,
+  DELETE
 } from "@services/commonConsts";
 
 export const auth = async (url, authInput) => {
   let data;
   try {
     data = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: POST,
+      headers: { 'Content-Type': applicationJson },
       body: JSON.stringify(authInput),
     });
   } catch (error) {
@@ -19,85 +22,89 @@ export const auth = async (url, authInput) => {
     data = { isRegistered: false, userId: null, token: null, roles: [] };
   }
 
-  return data.json();
+  return data?.json();
 };
 
 export const getProducts = async (url) => {
-  const userData = JSON.parse(localStorage.getItem(USERDATA));
+  const userData = JSON.parse(sessionStorage.getItem(USERDATA));
+  const bearerString = `Bearer ${userData?.token}`;
   const data = await fetch(url, {
-    method: "GET",
+    method: GET,
     headers: {
-      "Content-Type": applicationJson,
-      Authorization: `${bearer} ${userData?.token}`,
-    },
+      'Content-Type': applicationJson,
+      'Authorization': bearerString
+    }
   });
-  return data.json();
+  return data?.json();
 };
 
 export const getProduct = async (url, id) => {
-  const userData = JSON.parse(localStorage.getItem(USERDATA));
+  const userData = JSON.parse(sessionStorage.getItem(USERDATA));
+  const bearerString = `Bearer ${userData?.token}`;
   const data = await fetch(url + "/" + id, {
-    method: "GET",
+    method: GET,
     headers: {
-      "Content-Type": applicationJson,
-      Authorization: `${bearer} ${userData?.token}`,
-    },
+      'Content-Type': applicationJson,
+      'Authorization': bearerString
+    }
   });
 
-  return data;
+  return data?.json();
 };
 
 export const addProduct = async (url, product) => {
-  const userData = JSON.parse(localStorage.getItem(USERDATA));
+  const userData = JSON.parse(sessionStorage.getItem(USERDATA));
+  const bearerString = `Bearer ${userData?.token}`;
   const data = await fetch(url, {
-    method: "POST",
+    method: POST,
     headers: {
       "Content-Type": applicationJson,
-      Authorization: `${bearer} ${userData?.token}`,
+      'Authorization': bearerString,
     },
     body: JSON.stringify(product),
   });
 
-  return data;
+  return data?.json();
 };
 
 export const deleteProduct = async (url, id) => {
-  const userData = JSON.parse(localStorage.getItem(USERDATA));
+  const userData = JSON.parse(sessionStorage.getItem(USERDATA));
+  const bearerString = `Bearer ${userData?.token}`;
   const data = await fetch(url + "/" + id, {
-    method: "DELETE",
+    method: DELETE,
     headers: {
-      "Content-Type": applicationJson,
-      Authorization: `${bearer} ${userData?.token}`,
+      'Content-Type': applicationJson,
+      'Authorization': bearerString,
     },
   });
 
-  return data;
+  return data?.json();
 };
 
 export const registerAccount = async (url, inputUser) => {
-  const userData = JSON.parse(localStorage.getItem(USERDATA));
+  const userData = JSON.parse(sessionStorage.getItem(USERDATA));
   const data = await fetch(url, {
-    method: "POST",
+    method: POST,
     headers: {
-      "Content-Type": applicationJson,
-      Authorization: `${bearer} ${userData?.token}`,
+      'Content-Type': applicationJson,
+      'Authorization': `${bearer} ${userData?.token}`,
     },
     body: JSON.stringify(inputUser),
   });
 
-  return data;
+  return data?.json();
 };
 
 export const deleteAccount = async (url, deleteGuid) => {
-  const userData = JSON.parse(localStorage.getItem(USERDATA));
+  const userData = JSON.parse(sessionStorage.getItem(USERDATA));
   const data = await fetch(url, {
-    method: "DELETE",
+    method: DELETE,
     headers: {
       "Content-Type": applicationJson,
-      Authorization: `${bearer} ${userData?.token}`,
+      'Authorization': `${bearer} ${userData?.token}`,
     },
     body: JSON.stringify(deleteGuid),
   });
 
-  return data;
+  return data?.json();
 };

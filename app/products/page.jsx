@@ -1,4 +1,5 @@
 'use client'
+
 import {getProducts} from '@services/controllerService'
 import {useEffect, useState} from 'react'
 import Table from '@mui/material/Table';
@@ -7,17 +8,17 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { baseUrl } from '@services/commonConsts';
 
 const Page = () => {
-    const [products, setProducts] = useState(null);
+    const [products, setProducts] = useState();
 
     useEffect(() => {
         const getProductsRes = async () => {
-          const getProductsResult = await getProducts(
-                'https://localhost:7174/product'
+          const response = await getProducts(
+                baseUrl + '/product'
             );
-            const data = await getProductsResult; 
-            setProducts(data);
+            setProducts(response);
         }
         getProductsRes();
     }, []);

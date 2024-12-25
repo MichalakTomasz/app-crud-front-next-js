@@ -1,31 +1,50 @@
 "use client";
 
 import { deleteProduct } from "@services/controllerService";
-import { Form, Field } from "react-final-form";
+import { TextField, Button } from "@mui/material";
+import { useFormik } from "formik";
+import { useState } from "react";
+import { baseUrl } from "@services/commonConsts";
 
 const Page = () => {
-  const onSubmit = (values) => {
-    const doDeleteProduct = async () => {
-      await deleteProduct("https://localhost:7174/product", values.id);
-    };
-    doDeleteProduct();
+  const [deleteResult, setDeleteResult] = useState(undefined);
+  const doDeleteProduct = async (value) => {
+    const deleteRes = await deleteProduct(
+      baseUrl + '/product',
+      value.id
+    );
+    setDeleteResult(deleteRes);
   };
+
+  const formik = useFormik({
+    initialValues: {
+      id: 0,
+    },
+    onSubmit: (value) => {
+      doDeleteProduct(value);
+    },
+  });
 
   return (
     <>
       <h1>Delete Product</h1>
-      <Form
-        onSubmit={onSubmit}
-        render={({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label name="id">Id</label>
-              <Field name="id" component="input" type="text" placeholder="Id" />
-            </div>
-            <button type="submit">Delete</button>
-          </form>
-        )}
-      />
+      <form onSubmit={formik.handleSubmit}>
+        <TextField
+          name="id"
+          label="Id"
+          type="text"
+          onChange={formik.handleChange}
+        />
+        <Button variant="contained" type="submit">
+          Delete
+        </Button>
+      </form>
+      <div hidden={deleteResult == undefined || deleteResult == false}>
+        Delete product successfull
+      </div>
+      <div hidden={deleteResult == undefined || deleteResult == true}>
+        Delete product error
+      </div>
     </>
   );
 };

@@ -1,25 +1,15 @@
 "use client";
 
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import { Tabs, Tab } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthProvider";
 
 const Nav = () => {
-  console.log('nav')
   const authContext = useContext(AuthContext);
-  const [isAuthorized, setIsAuthorized] = useState(authContext?.isAuthorized);
-  const [userId, setUserId] = useState(authContext?.userId);
   const [roles, setRoles] = useState(authContext?.roles);
-  const [token, setToken] = useState(authContext?.token);
-  const [expiration, setExpiration] = useState(authContext?.expiration);
 
   useEffect(() => {
-    setIsAuthorized(authContext?.isAuthorized);
-    setUserId(authContext?.userId);
     setRoles(authContext?.roles);
-    setToken(authContext?.token);
-    setExpiration(authContext?.expiration);
   }, [authContext?.token]);
 
   const hasPermission = roles?.includes("Admin");
@@ -52,18 +42,18 @@ const Nav = () => {
     },
     {
       name: "Delete Product",
-      path: "deleteProduct",
+      path: "deleteproduct",
       index: 5,
     },
     {
       name: "Register Account",
       path: "registeraccount",
-      index: 5,
+      index: 6,
     },
     {
       name: "Delete Account",
       path: "deleteaccount",
-      index: 6,
+      index: 7,
     },
   ];
 
@@ -79,8 +69,7 @@ const Nav = () => {
   const currentPath = window.location.pathname ?? "/";
   return (
     <Tabs value={currentPath} centered>
-      {mappedRoutes.slice(0, 4)}
-      {hasPermission ? mappedRoutes.slice(4) : null}
+      {hasPermission ? mappedRoutes : mappedRoutes.slice(0, 4)}
     </Tabs>
   );
 };

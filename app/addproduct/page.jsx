@@ -1,82 +1,78 @@
 'use client'
 
 import { addProduct } from "@services/controllerService";
-import React from "react";
-import { Form, Field } from "react-final-form";
+import { useFormik } from 'formik';
+import { Button, TextField } from "@mui/material";
+import { baseUrl } from "@services/commonConsts";
+import { useState } from "react";
 
 const Page = () => {
-  const onSubmit = (values) => {
-    const doAddProduct = async () => {
-      const addProductResult = await addProduct(
-        'https://localhost:7174/product',
+  const [addProductResult, setAddProductResult] = useState(undefined);
+    const doAddProduct = async (values) => {
+      const addProductRes = await addProduct(
+        baseUrl + '/product',
         {
           name: values.name,
           code: values.code,
           description: values.description,
           urlPicture: values.urlPicture,
           price: values.price,
-        }
-      );
+        });
+        const result = addProductRes?.id > 0;
+        setAddProductResult(result);
     };
-    doAddProduct();
-  };
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      code: '',
+      description: '',
+      urlPisture: '',
+      price: 0
+    },
+    onSubmit: (values) => {
+      doAddProduct(values);
+    }
+  });
 
   return (
     <>
       <h1>Add product</h1>
-      <Form
-        onSubmit={onSubmit}
-        render={({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="name">Name</label>
-              <Field
-                name="name"
-                component="input"
+          <form onSubmit={formik.handleSubmit}>
+              <TextField
+                label='name'
+                name='name'
                 type="text"
-                placeholder="Name"
+                onChange={formik.handleChange}
               />
-            </div>
-            <div>
-              <label htmlFor="code">Code</label>
-              <Field
+              <TextField
+                label='code'
                 name="code"
-                component="input"
                 type="text"
-                placeholder="Code"
+                onChange={formik.handleChange}
               />
-            </div>
-            <div>
-              <label htmlFor="description">Description</label>
-              <Field
+              <TextField
+                label='Description'
                 name="description"
-                component="input"
                 type="text"
-                placeholder="Description"
+                onChange={formik.handleChange}
               />
-            </div>
-            <div>
-              <label htmlFor="urlPicture">UrlPicture</label>
-              <Field
+              <TextField
+                label='Url Picture'
                 name="urlPicture"
-                component="input"
                 type="text"
-                placeholder="UrlPicture"
+                onChange={formik.handleChange}
               />
-            </div>
-            <div>
-              <label htmlFor="price">Price</label>
-              <Field
+              <TextField
+                label='Price'
                 name="price"
-                component="input"
                 type="text"
-                placeholder="Price"
+                onChange={formik.handleChange}
               />
-            </div>
-            <button type="submit">Save</button>
+            <Button variant="contained" type="submit">Save</Button>
           </form>
-        )}
-      />
+          <div hidden={addProductResult == undefined || addProductResult == false}>Product added successfull</div>
+          <div hidden={addProductResult == undefined || addProductResult == true}>Add product error</div>
     </>
   );
 };

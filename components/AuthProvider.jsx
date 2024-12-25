@@ -7,7 +7,6 @@ import { userData as USERDATA, baseUrl } from "../services/commonConsts";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  console.log("AuthProvider");
   const [isAuthorized, setIsAuthorized] = useState();
   const [userId, setUserId] = useState();
   const [roles, setRoles] = useState();
@@ -27,8 +26,7 @@ const AuthProvider = ({ children }) => {
     const session = sessionStorage.getItem(USERDATA);
     const userData = session && JSON.parse(session);
     setUserData(userData);
-    console.log("checkAuth ", token);
-    if (!token || new Date(expiration) < new Date()) {
+    if (!userData?.token || new Date(userData?.expiration) < new Date()) {
       await logIn(null, null, "Guest");
     }
   };

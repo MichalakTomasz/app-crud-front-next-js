@@ -4,3 +4,7 @@ export const applicationJson = 'application/json';
 export const contentType = 'Content-Type';
 export const atuthorization = 'Authorization';
 export const bearer = 'Bearer';
+export const POST = 'POST';
+export const GET = 'GET';
+export const PUT = 'PUT';
+export const DELETE = 'DELETE';

@@ -25,28 +25,24 @@ const RootLayout = ({ children }) => {
     <html lang="en">
       <body>
         <AuthProvider>
-          <Box xl={{ flexGrow: 1 }}>
-            <Grid2 spacing={2}>
-              <Grid2 size="12">
-                <Item>
-                  <h1>Cloud academy Crud App</h1>
-                </Item>
-              </Grid2>
-              <Grid2 size="12">
-                  <Nav />
-                <Grid2 size = "2"/>
-                <Grid2 size="8">
-                  {children}
-                </Grid2>
-                <Grid2 size="2"/>
-                <Grid2 size="1"/>
-                <Grid2 size="10">
-                  <Grid2 size="1"/>
-                  <UserData />
-                </Grid2>
-              </Grid2>
+          <Grid2 container spacing={2}>
+            <Grid2 size={12}>
+              <Item>
+                <h1>Cloud academy Crud App</h1>
+              </Item>
             </Grid2>
-          </Box>
+            <Grid2 size={12}>
+              <Nav />
+              </Grid2>
+              <Grid2 size={2}></Grid2>
+              <Grid2 size={8}>{children}</Grid2>
+              <Grid2 size={2}></Grid2>
+              <Grid2 size={1}></Grid2>
+              <Grid2 size={10}>
+                <UserData />
+              </Grid2>
+              <Grid2 size={1}></Grid2>
+          </Grid2>
         </AuthProvider>
       </body>
     </html>
