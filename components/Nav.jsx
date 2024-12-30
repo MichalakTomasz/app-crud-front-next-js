@@ -1,7 +1,7 @@
 "use client";
 
-import { Tabs, Tab } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { Tabs, Tab } from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from "./AuthProvider";
 
 const Nav = () => {
@@ -12,33 +12,31 @@ const Nav = () => {
     setRoles(authContext?.roles);
   }, [authContext?.token]);
 
-  const hasPermission = roles?.includes("Admin");
-
   const routes = [
     {
       name: "Home",
       path: "",
-      index: 0,
+      index: 0
     },
     {
       name: "LogIn",
       path: "login",
-      index: 1,
+      index: 1
     },
     {
       name: "Products",
       path: "products",
-      index: 2,
+      index: 2
     },
     {
       name: "Product",
       path: "product",
-      index: 3,
+      index: 3
     },
     {
       name: "Add Product",
       path: "addproduct",
-      index: 4,
+      index: 4
     },
     {
       name: "Delete Product",
@@ -48,30 +46,34 @@ const Nav = () => {
     {
       name: "Register Account",
       path: "registeraccount",
-      index: 6,
+      index: 6
     },
     {
       name: "Delete Account",
       path: "deleteaccount",
-      index: 7,
-    },
+      index: 7
+    }
   ];
 
-  const mappedRoutes = routes.map((route) => (
-    <Tab
-      label={route.name}
-      href={"/" + route.path}
-      value={"/" + route.path}
-      key={route.index}
-    />
-  ));
-
+  const hasPermission = roles?.includes("Admin");
   const currentPath = window.location.pathname ?? "/";
-  return (
-    <Tabs value={currentPath} centered>
-      {hasPermission ? mappedRoutes : mappedRoutes.slice(0, 4)}
+  const availableRoutes = hasPermission ? routes : routes?.slice(0, 4);
+  const validCurrentPath = availableRoutes?.some(route => "/" + route.path == currentPath) ? currentPath : "/";
+
+  const mappedRoutes = (
+    <Tabs value={validCurrentPath} centered>
+      {availableRoutes?.map(route => (
+        <Tab
+          label={route.name}
+          href={"/" + route.path}
+          value={"/" + route.path}
+          key={route.index}
+        />
+      ))}
     </Tabs>
   );
+
+  return mappedRoutes;
 };
 
 export default Nav;

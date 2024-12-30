@@ -2,6 +2,8 @@
 
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthProvider";
+import "./UserData.css";
+import { Card, CardContent } from "@mui/material";
 
 const UserData = () => {
   const authContext = useContext(AuthContext);
@@ -20,13 +22,15 @@ const UserData = () => {
   }, [authContext?.token]);
 
   return (
-    <>
-      <div>Is User Authorized: {isAuthorized ? "yes" : "no"}</div>
-      <div>UserId: {userId}</div>
-      <div>Roles: {roles}</div>
-      <div>Token: {token}</div>
-      <div>Expiration: {expiration}</div>
-    </>
+    <Card className="margin">
+      <CardContent className="wrapText">
+        <div>Is User Authorized: {isAuthorized ? "yes" : "no"}</div>
+        <div>UserId: {userId}</div>
+        <div>Roles: {roles}</div>
+        <div>Token: {token}</div>
+        <div>Expiration: {expiration}</div>
+      </CardContent>
+    </Card>
   );
 };
 

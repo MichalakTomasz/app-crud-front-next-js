@@ -4,9 +4,8 @@ import "@styles/globals.css";
 import AuthProvider from "../components/AuthProvider";
 import UserData from "../components/UserData";
 import Nav from "../components/nav";
-
 import { styled } from "@mui/material/styles";
-import { Grid2, Box } from "@mui/material";
+import { Grid2 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -24,15 +23,15 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
-          <Grid2 container spacing={2}>
-            <Grid2 size={12}>
-              <Item>
-                <h1>Cloud academy Crud App</h1>
-              </Item>
-            </Grid2>
-            <Grid2 size={12}>
-              <Nav />
+          <AuthProvider>
+            <Grid2 container spacing={2}>
+              <Grid2 size={12}>
+                <Item>
+                  <h1>Cloud academy Crud App</h1>
+                </Item>
+              </Grid2>
+              <Grid2 size={12}>
+                <Nav />
               </Grid2>
               <Grid2 size={2}></Grid2>
               <Grid2 size={8}>{children}</Grid2>
@@ -42,8 +41,8 @@ const RootLayout = ({ children }) => {
                 <UserData />
               </Grid2>
               <Grid2 size={1}></Grid2>
-          </Grid2>
-        </AuthProvider>
+            </Grid2>
+          </AuthProvider>
       </body>
     </html>
   );

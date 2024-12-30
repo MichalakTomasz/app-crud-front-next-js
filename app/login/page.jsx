@@ -2,7 +2,7 @@
 
 import { AuthContext } from "@components/AuthProvider";
 import { useContext, useEffect, useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Box } from "@mui/material";
 import { useFormik } from "formik";
 
 const Page = () => {
@@ -47,7 +47,10 @@ const Page = () => {
   const loginElem = (
     <>
       <h1>LogIn</h1>
-      <form onSubmit={formik.handleSubmit}>
+      <Box 
+      component='form' 
+      sx={{ '& .MuiTextField-root': { m: 1,  width: '50ch'}, width:400}} 
+      onSubmit={formik.handleSubmit}>
         <TextField
           label="Email"
           name="email"
@@ -63,7 +66,7 @@ const Page = () => {
         <Button variant="contained" type="submit">
           LogIn
         </Button>
-      </form>
+      </Box>
     </>
   );
 

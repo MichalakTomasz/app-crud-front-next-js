@@ -2,9 +2,10 @@
 
 import { addProduct } from "@services/controllerService";
 import { useFormik } from 'formik';
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Box } from "@mui/material";
 import { baseUrl } from "@services/commonConsts";
 import { useState } from "react";
+import '../../styles/globals.css';
 
 const Page = () => {
   const [addProductResult, setAddProductResult] = useState(undefined);
@@ -38,14 +39,17 @@ const Page = () => {
   return (
     <>
       <h1>Add product</h1>
-          <form onSubmit={formik.handleSubmit}>
-              <TextField
+      <Box 
+      component='form' 
+      sx={{ '& .MuiTextField-root': { m: 1,  width: '50ch'}, width:400}}
+      onSubmit={formik.handleSubmit}>
+              <TextField 
                 label='name'
                 name='name'
                 type="text"
                 onChange={formik.handleChange}
               />
-              <TextField
+              <TextField 
                 label='code'
                 name="code"
                 type="text"
@@ -70,7 +74,8 @@ const Page = () => {
                 onChange={formik.handleChange}
               />
             <Button variant="contained" type="submit">Save</Button>
-          </form>
+          </Box>
+          
           <div hidden={addProductResult == undefined || addProductResult == false}>Product added successfull</div>
           <div hidden={addProductResult == undefined || addProductResult == true}>Add product error</div>
     </>
