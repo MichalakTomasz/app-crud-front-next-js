@@ -2,9 +2,8 @@
 
 import { getProduct } from "@services/controllerService";
 import { useState } from "react";
-import Button from '@mui/material/Button';
 import { baseUrl } from "@services/commonConsts";
-import { TextField } from "@node_modules/@mui/material";
+import { TextField, Button, Box } from "@node_modules/@mui/material";
 import { useFormik } from "formik";
 
 const Page = () => {
@@ -27,7 +26,10 @@ const Page = () => {
     <>
       <h1>Product</h1>
       
-        <form onSubmit={formik.handleSubmit}>
+        <Box 
+          component = 'form'
+          sx={{'& .MuiTextField-root': {m: 1, width: '30ch'}, msFlexDirection: 'column'}}
+          onSubmit={formik.handleSubmit}>
             <TextField 
             label='Id'
             name='id'
@@ -35,7 +37,7 @@ const Page = () => {
             onChange={formik.handleChange}
             />
           <Button variant='contained' type="submit">Get product</Button>
-        </form>
+        </Box>
       <>
         {product ? (
           <>

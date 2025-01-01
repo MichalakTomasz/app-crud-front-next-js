@@ -1,28 +1,30 @@
-"use client";
+'use client';
 
-import { addProduct } from "@services/controllerService";
-import { useFormik } from "formik";
-import { Button, TextField, Box } from "@mui/material";
-import { baseUrl } from "@services/commonConsts";
+import { Box, TextField, Button } from "@mui/material";
 import { useState } from "react";
-import "../../styles/globals.css";
+import { baseUrl } from "@services/commonConsts";
+import { useFormik } from "formik";
+import { updateProduct } from "@services/controllerService";
+import "../../styles/globals.css";;
 
 const Page = () => {
-  const [addProductResult, setAddProductResult] = useState(undefined);
-  const doAddProduct = async (values) => {
-    const addProductRes = await addProduct(baseUrl + "/product", {
+  const [updateProductResult, setUpdateProductResult] = useState(undefined);
+  const doUpdateProduct = async (values) => {
+    const updateProductRes = await updateProduct(baseUrl + "/product", {
+      id: values.id,
       name: values.name,
       code: values.code,
       description: values.description,
       urlPicture: values.urlPicture,
       price: values.price,
     });
-    const result = addProductRes?.id > 0;
-    setAddProductResult(result);
+    const result = updateProductRes?.id > 0;
+    setUpdateProductResult(result);
   };
 
   const formik = useFormik({
     initialValues: {
+      id: 0,
       name: "",
       code: "",
       description: "",
@@ -30,18 +32,24 @@ const Page = () => {
       price: 0,
     },
     onSubmit: (values) => {
-      doAddProduct(values);
-    },
+      doUpdateProduct(values);
+    }
   });
 
   return (
     <>
-      <h1>Add product</h1>
+      <h1>Update product</h1>
       <Box
         component="form"
-        sx={{ "& .MuiTextField-root": { m: 1, width: "50ch" }, width: 400 }}
         onSubmit={formik.handleSubmit}
+        sx={{ "& .MuiTextField-root": { m: 1, width: "50ch" }, width: 400 }}
       >
+        <TextField
+          label="id"
+          name="id"
+          type="text"
+          onChange={formik.handleChange}
+        />
         <TextField
           label="name"
           name="name"
@@ -73,14 +81,20 @@ const Page = () => {
           onChange={formik.handleChange}
         />
         <Button variant="contained" type="submit">
-          Save
+          Update
         </Button>
       </Box>
-      <div hidden={addProductResult == undefined || addProductResult == false}>
-        Product added successfull
+      <div
+        hidden={
+          updateProductResult == undefined || updateProductResult == false
+        }
+      >
+        Update added successfull
       </div>
-      <div hidden={addProductResult == undefined || addProductResult == true}>
-        Add product error
+      <div
+        hidden={updateProductResult == undefined || updateProductResult == true}
+      >
+        Update product error
       </div>
     </>
   );

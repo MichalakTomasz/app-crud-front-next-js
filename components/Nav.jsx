@@ -39,19 +39,24 @@ const Nav = () => {
       index: 4
     },
     {
+      name: "Update Product",
+      path: "updateproduct",
+      index: 5
+    },
+    {
       name: "Delete Product",
       path: "deleteproduct",
-      index: 5,
+      index: 6
     },
     {
       name: "Register Account",
       path: "registeraccount",
-      index: 6
+      index: 7
     },
     {
       name: "Delete Account",
       path: "deleteaccount",
-      index: 7
+      index: 8
     }
   ];
 

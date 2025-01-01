@@ -6,7 +6,8 @@ import {
   bearer,
   POST,
   GET,
-  DELETE
+  DELETE,
+  PUT
 } from "@services/commonConsts";
 
 export const auth = async (url, authInput) => {
@@ -57,6 +58,21 @@ export const addProduct = async (url, product) => {
   const bearerString = `Bearer ${userData?.token}`;
   const data = await fetch(url, {
     method: POST,
+    headers: {
+      "Content-Type": applicationJson,
+      'Authorization': bearerString,
+    },
+    body: JSON.stringify(product),
+  });
+
+  return data?.json();
+};
+
+export const updateProduct = async (url, product) => {
+  const userData = JSON.parse(sessionStorage.getItem(USERDATA));
+  const bearerString = `Bearer ${userData?.token}`;
+  const data = await fetch(url, {
+    method: PUT,
     headers: {
       "Content-Type": applicationJson,
       'Authorization': bearerString,

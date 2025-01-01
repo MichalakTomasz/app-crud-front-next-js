@@ -28,7 +28,7 @@ const Page = () => {
         <>
             <h1>Products</h1>
             <TableContainer >
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                <Table sx={{ minWidth: 650, backgroundColor: 'lightGray', borderRadius: '7px' }}  size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Id</TableCell>
